@@ -185,6 +185,11 @@ create_secret() {
   fi
 }
 
+move_custom_service_folders() {
+  mv lcp/*/ .
+  git add --all && git commit -m 'Move custom service folders to root'
+}
+
 print_opening_instructions() {
   printf "\n### DXP Cloud Project Workspace Upgrade ###\n\n"
   printf "The script creates a commit on the current branch that adds itself to .gitignore.\n"
@@ -365,7 +370,6 @@ upgrade_liferay_service() {
 
   rm -rf \
     build.gradle \
-    gradle.properties \
     gradlew \
     gradlew.bat \
     settings.gradle \
@@ -383,6 +387,9 @@ upgrade_liferay_service() {
   java -jar blade.jar init -v ${DXP_VERSION} liferay
 
   rm blade.jar
+
+  echo 'Moving gradle.properties to liferay dir and commenting it out'
+  mv gradle.properties liferay/#gradle.properties
 
   mv lcp/liferay/* liferay/
 
