@@ -26,7 +26,8 @@ else
   readonly SED_ARGS='-i'
 fi
 
-readonly API_URL=https://api.liferay.cloud
+readonly INFRASTRUCTURE=liferay.cloud
+readonly API_URL=https://api.${INFRASTRUCTURE}
 readonly LOGIN_URL=${API_URL}/login
 readonly PROJECTS_URL=${API_URL}/projects
 
@@ -67,7 +68,6 @@ prompt_for_database_secret_variables() {
   printf "\n"
   read -p "Please enter your project id: " -r PROJECT_ID
 
-  lcp logout
   echo 'Please login to DXP Cloud Console'
   lcp login
 
@@ -80,7 +80,7 @@ prompt_for_database_secret_variables() {
     exit 1
   fi
 
-  TOKEN=$(grep -A 2 "infrastructure=liferay.cloud" "$LCP_CONFIG_FILE" | awk -F "=" '/token/ {print $2}')
+  TOKEN=$(grep -A 2 "infrastructure=${INFRASTRUCTURE}" "$LCP_CONFIG_FILE" | awk -F "=" '/token/ {print $2}')
 
   readonly PORTAL_ALL_PROPERTIES_LOCATION=lcp/liferay/config/common/portal-all.properties
 
