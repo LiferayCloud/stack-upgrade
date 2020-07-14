@@ -52,6 +52,7 @@ main() {
   upgrade_liferay_service
   upgrade_webserver_service
 
+  move_custom_service_folders
   cleanup_obsolete_files
 }
 
